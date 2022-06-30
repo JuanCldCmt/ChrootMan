@@ -1,6 +1,12 @@
 # ChrootMan - Chroot Manager
 
-Manage chroots in cli, with ease.
+✨ Manage chroots in a breeze! 
+
+# Features
+
+🚀 mount, unmount file system, and execute commands in one go
+
+🔥 Fully configurable through `yaml` configuration file
 
 # Development Roadmap
 
@@ -13,9 +19,10 @@ Manage chroots in cli, with ease.
   - [x] `unmount` unmount the chroot
   - [x] `login` enter shell for the chroot
 - [ ] v0.3 advanced features
-  - [ ] automatic distro detection
+  - [ ] PyPI file structure
+  - [ ] `config` print default config file to stdout
+  - [ ] distro specific settings
     - [ ] `update` update software on target chroot
-    - [ ] `conf-update` automatic config generation, based on what's in `~/.local/var/chroot/`
-    - [ ] `launch` mount chroot, launch program, and unmount after program closed in another background process.
+    - [ ] `launch` mount chroot, launch program, and unmount after program closed in one go
   - [ ] Colorful output and debug info
   - [ ] `install` download and install chroots from presets
