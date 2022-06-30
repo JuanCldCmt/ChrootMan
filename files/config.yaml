@@ -1,0 +1,54 @@
+---
+###########################################
+# This is the default configuration file. #
+# Please MODIFY it to suit your needs.    #
+###########################################
+
+general:
+  # We use this program when mounting and chrooting
+  su-provider: /usr/bin/doas
+  # All chroots should be stored at this folder.
+  # However, you can specify your own location. (see below)
+  unified-location: ~/.local/var/chroots/
+  # Distro-specific settings, below are defalut values
+  distro-settings:
+    # default setting if distro is not set.
+    default:
+      mount-command: |
+        mount -t proc /proc $rootfs_loc/proc || exit 1
+        mount -R /sys $rootfs_loc/sys || exit 1
+        mount -R /dev $rootfs_loc/dev || exit 1
+        mount -R /run $rootfs_loc/run || exit 1
+      unmount-command: |
+        umount -R $rootfs_location
+      login-command: |
+        chroot $rootfs_location unshare su -l
+
+    arch:
+      # Command to use when updating softwares in chroot.
+      update-command: pacman -Syu --noconfirm
+      # Command to use when mounting filesystems. to not mount anything:
+      # mount-command: command true
+      # $rootfs_location is the absulote path of chroot, will be set by program
+      mount-command: |
+        mount -R $rootfs_location $rootfs_location || exit 1
+        mount -t proc /proc $rootfs_location/proc || exit 1
+        mount -R /sys $rootfs_location/sys || exit 1
+        mount -R /dev $rootfs_location/dev || exit 1
+        mount -R /run $rootfs_location/run || exit 1
+      unmount-command: |
+        umount -R $rootfs_location
+
+# Names of your chroots
+chroots:
+  arch-wine:
+    # If not using unified-location, please use custom-location instead.
+    # custom-location: /var/chroot/archlinux/
+    location: archlinux
+    # Using ID variable in /etc/os-release
+    distro: arch
+    # (Optional) Description of your chroot
+    description: Arch linux chroot for running wine softwares
+  debian:
+    location: debian
+    distro: default
