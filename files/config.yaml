@@ -26,7 +26,8 @@ general:
 
     arch:
       # Command to use when updating softwares in chroot.
-      update-command: pacman -Syu --noconfirm
+      update-command: |
+        chroot $rootfs_location unshare su -lc pacman -Syu --noconfirm
       # Command to use when mounting filesystems. to not mount anything:
       # mount-command: command true
       # $rootfs_location is the absulote path of chroot, will be set by program
@@ -37,7 +38,7 @@ general:
         mount -R /dev $rootfs_location/dev || exit 1
         mount -R /run $rootfs_location/run || exit 1
       unmount-command: |
-        umount -R $rootfs_location
+        umount -lR $rootfs_location
 
 # Names of your chroots
 chroots:

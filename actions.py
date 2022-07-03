@@ -32,7 +32,7 @@ def mount(config_data, args):
     # check whether to use default or not
     mount_command = getChrootCommand(config_data, distro, chroot_name, "mount-command")
     suRunCommand(
-        config_data, chroot_name, su_provider, mount_command, "mount_command", False
+        config_data, chroot_name, su_provider, mount_command, "mount_command"
     )
 
 
@@ -45,7 +45,7 @@ def unmount(config_data, args):
         config_data, distro, chroot_name, "unmount-command"
     )
     suRunCommand(
-        config_data, chroot_name, su_provider, unmount_command, "unmount_command", False
+        config_data, chroot_name, su_provider, unmount_command, "unmount_command"
     )
 
 
@@ -63,5 +63,5 @@ def login(config_data, args):
 
     login_command = getChrootCommand(config_data, distro, chroot_name, "login-command")
     suRunCommand(
-        config_data, chroot_name, su_provider, login_command, "login_command", True
+        config_data, chroot_name, su_provider, login_command, "login_command"
     )

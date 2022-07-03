@@ -1,7 +1,6 @@
-import pexpect
+import subprocess
 from os import environ
 from logging import debug, error
-from getpass import getpass
 
 
 def cliAskChoice():
@@ -56,7 +55,7 @@ def getChrootCommand(config_data, distro, chroot_name, command_name):
 
 def chkMountStatus(config_data ,chroot_name):
     chrootPath = findLocation(config_data, chroot_name).replace('~', environ["HOME"])
-    output = pexpect.run("mount")
+    output = subprocess.run(["mount"], capture_output=True).stdout
     debug(f"Path is: {chrootPath}, mountpoints are: {str(output)}")
     if chrootPath in str(output):
         return True
@@ -64,22 +63,9 @@ def chkMountStatus(config_data ,chroot_name):
         return False
 
 def suRunCommand(
-    config_data, chroot_name, su_provider, command, command_type, interactive
+    config_data, chroot_name, su_provider, command, command_type
 ):
     if validChrootName(config_data, chroot_name):
         print(f"Executing {command_type}")
-        password = getpass(f"Please enter password for {su_provider}: ")
-        child = pexpect.spawn(su_provider, ["sh"])
-        child.sendline(password)
-        child.sendline(command)
-        if interactive:
-            debug("Interactive is enabled.")
-            child.interact()
-        else:
-            print(f"{command_type} executed")
-            child.sendline("exit")
-
-        i = child.expect(pexpect.EOF)
-        if i == 0:
-            child.close()
-            print("Exitting...")
+        child = subprocess.run([su_provider, "sh", "-c", command])
+        print(f"{command_type} executed and returned {child.returncode}")
