@@ -2,15 +2,15 @@ import argparse
 import os
 import logging
 import yaml
-import actions
+from .actions import *
 from os import environ
-from helpers import cliAskChoice
+from .helpers import cliAskChoice
 from shutil import copy
 
 # read args and set up debugger based on flags
 def parse_args():
     parser = argparse.ArgumentParser(description="Manage chroot instances")
-    parser.set_defaults(func=actions.help)
+    parser.set_defaults(func=help)
 
     parser.add_argument(
         "-d",
@@ -26,7 +26,7 @@ def parse_args():
         "info", help="Display information on specified chroot"
     )
     info_parser.add_argument("chroot-name", type=str, help="specify the name of chroot")
-    info_parser.set_defaults(func=actions.showinfo)
+    info_parser.set_defaults(func=showinfo)
 
     mount_parser = subparsers.add_parser(
         "mount", help="Mount filesystem of specified chroot"
@@ -34,7 +34,7 @@ def parse_args():
     mount_parser.add_argument(
         "chroot-name", type=str, help="specify name of chroot to mount"
     )
-    mount_parser.set_defaults(func=actions.mount)
+    mount_parser.set_defaults(func=mount)
 
     unmount_parser = subparsers.add_parser(
         "unmount", help="unmount filesystem of specified chroot"
@@ -42,7 +42,7 @@ def parse_args():
     unmount_parser.add_argument(
         "chroot-name", type=str, help="specify name of chroot to unmount"
     )
-    unmount_parser.set_defaults(func=actions.unmount)
+    unmount_parser.set_defaults(func=unmount)
 
     login_parser = subparsers.add_parser(
         "login", help="login to specified chroot"
@@ -50,7 +50,7 @@ def parse_args():
     login_parser.add_argument(
         "chroot-name", type=str, help="specify name of chroot to login"
     )
-    login_parser.set_defaults(func=actions.login)
+    login_parser.set_defaults(func=login)
 
     # argument
     args = parser.parse_args()
@@ -91,7 +91,11 @@ def parse_conf():
         )
         if cliAskChoice() == True:
             # path of the directory of script
-            path = os.path.dirname(os.path.abspath(__file__))
+            if not __file__:
+                path = __path__
+            else :
+                path = os.path.dirname(os.path.abspath(__file__))
+
             copy(f"{path}/files/config.yaml", config_location)
 
             logging.debug("Installed default config file.")

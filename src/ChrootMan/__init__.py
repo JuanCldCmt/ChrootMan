@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import logging
-from parsers import parse_args, parse_conf
-from helpers import validChrootName
+from .parsers import parse_args, parse_conf
+from .helpers import validChrootName
 
 
 def main():

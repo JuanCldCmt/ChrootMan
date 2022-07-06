@@ -1,3 +1,6 @@
-tags
-__pycache__/
 dev/
+dist/
+Pipfile*
+__pycache__/
+src/ChrootMan.egg-info/
+tags

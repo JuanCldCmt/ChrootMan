@@ -1,10 +1,9 @@
-from helpers import *
-from sys import argv
+from .helpers import *
 import logging
 
 
 def help(config_data, args):
-    print(f"Run {argv[0]} -h for help")
+    print(f"Run chrootman -h for help")
     logging.debug(f"Arg not specified: {config_data}, {args}")
 
 

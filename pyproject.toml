@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ChrootMan"
+version = "0.2.2"
+description = "Cli application to manage Chroots"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "GPL version 3"}
+authors = [
+  { name="JuanCldCmt", email="72336775+JuanCldCmt@users.noreply.github.com" },
+]
+keywords = ["chroot", "linux"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Operating System :: POSIX :: Linux"
+]
+dependencies = [
+    "pyyaml",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/JuanCldCmt/ChrootMan"
+"Bug Tracker" = "https://github.com/JuanCldCmt/ChrootMan/issues"
+
+[project.scripts]
+chrootman = "ChrootMan:main"
