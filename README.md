@@ -23,9 +23,9 @@
   - [x] `unmount` unmount the chroot
   - [x] `login` enter shell for the chroot
 - [ ] v0.3 advanced features
-  - [ ] PyPI file structure
-  - [ ] `config` print default config file to stdout
-  - [ ] distro specific settings
+  - [x] PyPI file structure
+  - [x] Install default config file when not found
+  - [x] distro specific settings
     - [ ] `update` update software on target chroot
     - [ ] `launch` mount chroot, launch program, and unmount after program closed in one go
   - [ ] Colorful output and debug info
