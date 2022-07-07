@@ -29,5 +29,5 @@
     - [x] `update` update software on target chroot
     - [ ] `launch` mount chroot, launch program, and unmount after program closed in one go
     - [x] `list` lists available chroots
-  - [ ] Colorful output and debug info
+  - [x] Colorful output and debug info
   - [ ] `install` download and install chroots from presets

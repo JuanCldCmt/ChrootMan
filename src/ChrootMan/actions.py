@@ -1,3 +1,4 @@
+from termcolor import colored
 from .helpers import (
     chkMountStatus,
     findLocation,
@@ -9,32 +10,33 @@ import logging
 
 
 def help(config_data, args):
-    print(f"Run chrootman -h for help")
+    print(f"{colored('run', 'yellow')} {colored('chrootman', 'green')} -h for help")
     logging.debug(f"Arg not specified: {config_data}, {args}")
 
 
 def list(config_data, args):
     logging.debug(f"Arg is not used {args}")
-    print("Available chroots:")
+    print(f"{colored('Available','green')} {colored('chroots', 'yellow')}:")
     for item in config_data["chroots"]:
-        print(item)
+        print(colored(item, 'yellow'))
 
 
 # Show info of specified chroot
 def showinfo(config_data, args):
     chroot_name = args["chroot_name"]
-    print(f"Name: \t\t{chroot_name}")
+    print(f"{colored('Name','green')}: \t\t{colored(chroot_name, 'yellow')}")
     try:
-        print(f"Description: \t{config_data['chroots'][chroot_name]['description']}")
+        print(f"{colored('Description', 'green')}: \t{colored(config_data['chroots'][chroot_name]['description'], 'yellow')}")
     except:
         logging.warn("Description not found, skipping")
-    print(f"Location: \t{findLocation(config_data, chroot_name)}")
-    print(f"Distro: \t{config_data['chroots'][chroot_name]['distro']}")
+    print(f"{colored('Location', 'green')}: \t{colored(findLocation(config_data, chroot_name), 'yellow')}")
+    print(f"{colored('Distro', 'green')}: \t{colored(config_data['chroots'][chroot_name]['distro'], 'yellow')}")
 
 
 # Execute mount-command from settings
-def mount(config_data, args):
-    chroot_name = args["chroot_name"]
+def mount(config_data, args, chroot_name=None):
+    if not chroot_name:
+        chroot_name = args["chroot_name"]
     if chkMountStatus(config_data, chroot_name):
         logging.error(f"{chroot_name} is already mounted.")
         exit(1)
@@ -85,7 +87,7 @@ def updateChroot(config_data, args, chroot_name):
     if not chkMountStatus(config_data, chroot_name):
         logging.error("Filesystem is not mounted! Do you want to mount it first?")
         if cliAskChoice():
-            mount(config_data, args)
+            mount(config_data, args, chroot_name=chroot_name)
             update(config_data, args)
             return
 
@@ -98,10 +100,10 @@ def update(config_data, args):
     if not args["chroot_name"]:
         logging.debug("chroot_name arg is not found")
         if not args["all"]:
-            print("chroot_name not specified, assuming --all")
+            print(f"{colored('chroot_name', 'yellow')} not specified, assuming {colored('--all', 'green')}")
 
         for chroot in config_data["chroots"]:
-            print(f"Updating: {chroot}")
+            print(f" {colored('Updating', 'green')}: {colored(chroot, 'yellow')}")
             updateChroot(config_data, args, chroot)
 
     else:

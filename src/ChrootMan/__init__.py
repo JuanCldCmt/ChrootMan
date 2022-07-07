@@ -9,10 +9,9 @@ def main():
     config_data = parse_conf()
     logging.debug(f"Initialization complete.")
 
-
     # Validate chroot name
     try:
-        chroot_name = vars(args)['chroot-name']
+        chroot_name = vars(args)["chroot-name"]
         logging.debug("Validating chroot name")
         if not validChrootName(config_data, chroot_name):
             logging.debug("Chroot name is invalid, exitting")
@@ -20,7 +19,6 @@ def main():
     except KeyError:
         # chroot name is not required
         pass
-
 
     # run program depending on what the arguments are
     logging.debug(f"Running with args {args}")

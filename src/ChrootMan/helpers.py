@@ -1,13 +1,14 @@
 import subprocess
 from os import environ
 from logging import debug, error
+from termcolor import colored
 
 
 def cliAskChoice():
     yes = {"yes", "yep", "y", "ye"}
     no = {"no", "nope", "n"}
 
-    choice = input("Input: (y/n) > ").lower()
+    choice = input(f"{colored('Input', 'blue')}: ({colored('y','green')}/{colored('n', 'red')}) > ").lower()
     debug("input is:" + choice)
     if choice in yes:
         debug("Choice is yes")
@@ -16,7 +17,7 @@ def cliAskChoice():
         debug("Choice is no")
         return False
     else:
-        print("Please respond with 'y' or 'n'")
+        print(f" Please respond with '{colored('y', 'green')}' or '{colored('n', 'red')}'")
         cliAskChoice()
 
 
@@ -69,6 +70,6 @@ def chkMountStatus(config_data, chroot_name):
 
 def suRunCommand(config_data, chroot_name, su_provider, command, command_type):
     if validChrootName(config_data, chroot_name):
-        print(f"Executing {command_type}")
+        print(f"→ {colored('Executing', 'green')} {colored(command_type, 'yellow')}")
         child = subprocess.run([su_provider, "sh", "-c", command])
-        print(f"{command_type} executed and returned {child.returncode}")
+        print(f"⏎ {colored(command_type, 'yellow')} executed and returned {colored(str(child.returncode), 'magenta')}")

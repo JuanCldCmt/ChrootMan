@@ -1,11 +1,39 @@
 import argparse
 import os
+
+# logging
 import logging
 import yaml
+
+# functionality
 from .actions import *
 from os import environ
 from .helpers import cliAskChoice
 from shutil import copy
+
+
+class custom_formatter(logging.Formatter):
+    cyan = "\x1b[36m"
+    blue = "\x1b[34m"
+    yellow = "\x1b[33m"
+    red = "\x1b[31m"
+    reset = "\x1b[0m"
+
+    def __init__(self, fmt):
+        super().__init__()
+        self.fmt = fmt
+        self.FORMATS = {
+            logging.DEBUG: self.cyan + self.fmt + self.reset,
+            logging.INFO: self.blue + self.fmt + self.reset,
+            logging.WARNING: self.yellow + self.fmt + self.reset,
+            logging.ERROR: self.red + self.fmt + self.reset,
+            logging.CRITICAL: self.red + self.fmt + self.reset,
+        }
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
 
 
 def add_subcommands(subparsers):
@@ -71,10 +99,17 @@ def parse_args():
     args = parser.parse_args()
 
     # set up debugger
+    logger = logging.getLogger()
     if args.debug:
-        logging.basicConfig(level="DEBUG", format="%(levelname)s: %(message)s")
+        logger.setLevel(logging.DEBUG)
     else:
-        logging.basicConfig(level="ERROR", format="%(levelname)s: %(message)s")
+        logger.setLevel(logging.ERROR)
+
+    log = logging.StreamHandler()
+    fmt = "%(levelname)s: %(message)s"
+    log.setFormatter(custom_formatter(fmt))
+
+    logger.addHandler(log)
 
     logging.debug("Successfully parsed arguments")
 

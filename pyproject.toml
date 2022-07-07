@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ChrootMan"
-version = "v0.3.0"
+version = "v0.3.2"
 description = "Cli application to manage Chroots"
 readme = "README.md"
 requires-python = ">=3.7"
@@ -20,6 +20,7 @@ classifiers = [
 ]
 dependencies = [
     "pyyaml",
+    "termcolor",
 ]
 
 [project.urls]
