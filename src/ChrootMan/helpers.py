@@ -21,6 +21,9 @@ def cliAskChoice():
 
 
 def findLocation(config_data, chroot_name):
+    if not validChrootName(config_data, chroot_name):
+        exit(1)
+
     if "custom-location" not in config_data["chroots"][chroot_name]:
         return (
             config_data["general"]["unified-location"]

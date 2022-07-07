@@ -74,3 +74,37 @@ def login(config_data, args):
     login_command = getChrootCommand(config_data, distro, chroot_name, "login-command")
     suRunCommand(config_data, chroot_name, su_provider, login_command, "login_command")
 
+
+def updateChroot(config_data, args, chroot_name):
+    su_provider = config_data["general"]["su-provider"]
+    distro = config_data["chroots"][chroot_name]["distro"]
+    update_command = getChrootCommand(
+        config_data, distro, chroot_name, "update-command"
+    )
+
+    if not chkMountStatus(config_data, chroot_name):
+        logging.error("Filesystem is not mounted! Do you want to mount it first?")
+        if cliAskChoice():
+            mount(config_data, args)
+            update(config_data, args)
+            return
+
+    suRunCommand(
+        config_data, chroot_name, su_provider, update_command, "update_command"
+    )
+
+
+def update(config_data, args):
+    if not args["chroot_name"]:
+        logging.debug("chroot_name arg is not found")
+        if not args["all"]:
+            print("chroot_name not specified, assuming --all")
+
+        for chroot in config_data["chroots"]:
+            print(f"Updating: {chroot}")
+            updateChroot(config_data, args, chroot)
+
+    else:
+        chroot_name = args["chroot_name"]
+        logging.debug(f"Updating {chroot_name}")
+        updateChroot(config_data, args, chroot_name)

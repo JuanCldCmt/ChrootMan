@@ -26,7 +26,7 @@
   - [x] PyPI file structure
   - [x] Install default config file when not found
   - [x] distro specific settings
-    - [ ] `update` update software on target chroot
+    - [x] `update` update software on target chroot
     - [ ] `launch` mount chroot, launch program, and unmount after program closed in one go
     - [x] `list` lists available chroots
   - [ ] Colorful output and debug info

@@ -10,7 +10,7 @@ general:
   # All chroots should be stored at this folder.
   # However, you can specify your own location. (see below)
   unified-location: ~/.local/var/chroots/
-  # Distro-specific settings, below are defalut values
+  # Distro-specific settings
   distro-settings:
     # default setting if distro is not set.
     default:
@@ -20,14 +20,14 @@ general:
         mount -R /dev $rootfs_loc/dev || exit 1
         mount -R /run $rootfs_loc/run || exit 1
       unmount-command: |
-        umount -R $rootfs_location
+        umount -lR $rootfs_location
       login-command: |
         chroot $rootfs_location unshare su -l
 
     arch:
       # Command to use when updating softwares in chroot.
       update-command: |
-        chroot $rootfs_location unshare su -lc pacman -Syu --noconfirm
+        chroot $rootfs_location unshare su -lc "pacman -Syu --noconfirm && exit"
       # Command to use when mounting filesystems. to not mount anything:
       # mount-command: command true
       # $rootfs_location is the absulote path of chroot, will be set by program
@@ -37,8 +37,6 @@ general:
         mount -R /sys $rootfs_location/sys || exit 1
         mount -R /dev $rootfs_location/dev || exit 1
         mount -R /run $rootfs_location/run || exit 1
-      unmount-command: |
-        umount -lR $rootfs_location
 
 # Names of your chroots
 chroots:
