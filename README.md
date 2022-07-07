@@ -2,17 +2,17 @@
 
 ✨ Manage chroots in a breeze! 
 
-# Features
+## Features
 
 🚀 mount, unmount file system, and execute commands in one go
 
 🔥 Fully configurable through `yaml` configuration file
 
-# Examples
+## Examples
 
 🚧 Under construction 🚧
 
-# Development Roadmap
+## Development Roadmap
 
 - [x] v0.1 yaml processing, args processing
   - [x] config file
@@ -28,5 +28,6 @@
   - [x] distro specific settings
     - [ ] `update` update software on target chroot
     - [ ] `launch` mount chroot, launch program, and unmount after program closed in one go
+    - [x] `list` lists available chroots
   - [ ] Colorful output and debug info
   - [ ] `install` download and install chroots from presets

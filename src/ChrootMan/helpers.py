@@ -53,8 +53,9 @@ def getChrootCommand(config_data, distro, chroot_name, command_name):
     debug(f"Command loaded:\n{command}")
     return command
 
-def chkMountStatus(config_data ,chroot_name):
-    chrootPath = findLocation(config_data, chroot_name).replace('~', environ["HOME"])
+
+def chkMountStatus(config_data, chroot_name):
+    chrootPath = findLocation(config_data, chroot_name).replace("~", environ["HOME"])
     output = subprocess.run(["mount"], capture_output=True).stdout
     debug(f"Path is: {chrootPath}, mountpoints are: {str(output)}")
     if chrootPath in str(output):
@@ -62,9 +63,8 @@ def chkMountStatus(config_data ,chroot_name):
     else:
         return False
 
-def suRunCommand(
-    config_data, chroot_name, su_provider, command, command_type
-):
+
+def suRunCommand(config_data, chroot_name, su_provider, command, command_type):
     if validChrootName(config_data, chroot_name):
         print(f"Executing {command_type}")
         child = subprocess.run([su_provider, "sh", "-c", command])

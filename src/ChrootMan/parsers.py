@@ -7,6 +7,51 @@ from os import environ
 from .helpers import cliAskChoice
 from shutil import copy
 
+
+def add_subcommands(subparsers):
+    # add parsers for subcommands
+    list_parser = subparsers.add_parser("list", help="Display availble chroots")
+    list_parser.set_defaults(func=list)
+
+    info_parser = subparsers.add_parser(
+        "info", help="Display information on specified chroot"
+    )
+    info_parser.add_argument("chroot_name", type=str, help="specify the name of chroot")
+    info_parser.set_defaults(func=showinfo)
+
+    mount_parser = subparsers.add_parser(
+        "mount", help="Mount filesystem of specified chroot"
+    )
+    mount_parser.add_argument(
+        "chroot_name", type=str, help="specify name of chroot to mount"
+    )
+    mount_parser.set_defaults(func=mount)
+
+    unmount_parser = subparsers.add_parser(
+        "unmount", help="unmount filesystem of specified chroot"
+    )
+    unmount_parser.add_argument(
+        "chroot_name", type=str, help="specify name of chroot to unmount"
+    )
+    unmount_parser.set_defaults(func=unmount)
+
+    login_parser = subparsers.add_parser("login", help="login to specified chroot")
+    login_parser.add_argument(
+        "chroot_name", type=str, help="specify name of chroot to login"
+    )
+    login_parser.set_defaults(func=login)
+
+    update_parser = subparsers.add_parser("update", help="update to specified chroot")
+    update_parser.add_argument(
+        "chroot_name",
+        nargs="?",
+        type=str,
+        help="specify name of chroot to update",
+    )
+    update_parser.add_argument("--all", "-a", action="store_true")
+    update_parser.set_defaults(func=update)
+
+
 # read args and set up debugger based on flags
 def parse_args():
     parser = argparse.ArgumentParser(description="Manage chroot instances")
@@ -21,37 +66,7 @@ def parse_args():
 
     subparsers = parser.add_subparsers(title="available subcommands")
 
-    # add parsers for subcommands
-    info_parser = subparsers.add_parser(
-        "info", help="Display information on specified chroot"
-    )
-    info_parser.add_argument("chroot-name", type=str, help="specify the name of chroot")
-    info_parser.set_defaults(func=showinfo)
-
-    mount_parser = subparsers.add_parser(
-        "mount", help="Mount filesystem of specified chroot"
-    )
-    mount_parser.add_argument(
-        "chroot-name", type=str, help="specify name of chroot to mount"
-    )
-    mount_parser.set_defaults(func=mount)
-
-    unmount_parser = subparsers.add_parser(
-        "unmount", help="unmount filesystem of specified chroot"
-    )
-    unmount_parser.add_argument(
-        "chroot-name", type=str, help="specify name of chroot to unmount"
-    )
-    unmount_parser.set_defaults(func=unmount)
-
-    login_parser = subparsers.add_parser(
-        "login", help="login to specified chroot"
-    )
-    login_parser.add_argument(
-        "chroot-name", type=str, help="specify name of chroot to login"
-    )
-    login_parser.set_defaults(func=login)
-
+    add_subcommands(subparsers)
     # argument
     args = parser.parse_args()
 
@@ -93,7 +108,7 @@ def parse_conf():
             # path of the directory of script
             if not __file__:
                 path = __path__
-            else :
+            else:
                 path = os.path.dirname(os.path.abspath(__file__))
 
             copy(f"{path}/files/config.yaml", config_location)
