@@ -69,6 +69,14 @@ def add_subcommands(subparsers):
     )
     login_parser.set_defaults(func=login)
 
+    launch_parser = subparsers.add_parser(
+        "launch", help="launch chroot using command specified in chroot"
+    )
+    launch_parser.add_argument(
+        "chroot_name", type=str, help="specify name of chroot to launch"
+    )
+    launch_parser.set_defaults(func=launch)
+
     update_parser = subparsers.add_parser("update", help="update to specified chroot")
     update_parser.add_argument(
         "chroot_name",

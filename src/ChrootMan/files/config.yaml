@@ -48,6 +48,9 @@ chroots:
     distro: arch
     # (Optional) Description of your chroot
     description: Arch linux chroot for running wine softwares
+    launch-command: |
+      chroot $rootfs_location unshare su -l steam -c "DISPLAY=:0 steam -no-cef-sandbox && exit"
+
   debian:
     location: debian
     distro: default
